@@ -1,0 +1,10 @@
+.vs
+.vscode
+CurrencyConverter/bin/Debug/
+CurrencyConverter/obj/
+CurrencyConverter.Tests/bin/Debug/
+CurrencyConverter.Tests/obj/
+XUnitTestProject1/bin/Debug/
+XUnitTestProject1/obj/
+CurrencyConverter/obj/
+CurrencyConverter/obj/Release/n
