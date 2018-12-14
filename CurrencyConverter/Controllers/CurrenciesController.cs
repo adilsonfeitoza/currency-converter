@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CurrencyConverter.Service;
 using Microsoft.AspNetCore.Mvc;
+using CurrencyConverter.Service;
 
 namespace CurrencyConverter.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
-    public class CurrenciesController : ControllerBase
+    public class CurrenciesController : Controller
     {
         private readonly ICurrencyLayerService _currencyLayerService;
         public CurrenciesController(ICurrencyLayerService currencyLayerService)
@@ -17,7 +16,7 @@ namespace CurrencyConverter.Controllers
             _currencyLayerService = currencyLayerService;
         }
 
-        // GET api/Currencies
+        // GET api/values
         [HttpGet]
         public IActionResult Get()
         {
@@ -25,26 +24,26 @@ namespace CurrencyConverter.Controllers
             return new ObjectResult(currencies);
         }
 
-        // GET api/Currencies/5
+        // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public string Get(int id)
         {
-            return "Currencies";
+            return "value";
         }
 
-        // POST api/Currencies
+        // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody]string value)
         {
         }
 
-        // PUT api/Currencies/5
+        // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, [FromBody]string value)
         {
         }
 
-        // DELETE api/Currencies/5
+        // DELETE api/values/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

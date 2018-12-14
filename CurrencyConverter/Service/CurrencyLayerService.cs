@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Linq.Expressions;
-using CurrencyConverter.Helpers;
 using CurrencyConverter.Service;
 using CurrencyConverter.Models;
 
-namespace CurrencyConverter.Helpers
+namespace CurrencyConverter.Service
 {
     public class CurrencyLayerService : ICurrencyLayerService
     {

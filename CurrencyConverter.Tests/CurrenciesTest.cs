@@ -1,13 +1,13 @@
 using CurrencyConverter.Controllers;
-using CurrencyConverter.Helpers;
-using System;
-using Xunit;
-using Microsoft.AspNetCore.Mvc;
 using CurrencyConverter.Models;
+using CurrencyConverter.Service;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Moq;
+using System;
+using Xunit;
 
-namespace XUnitTestProject1
+namespace CurrencyConverter.Tests
 {
     public class CurrenciesTest
     {
@@ -18,7 +18,7 @@ namespace XUnitTestProject1
         {
             configuration = new Mock<IConfiguration>();
         }
-        
+
         [Fact]
         public void ConvertOneCurrency()
         {
