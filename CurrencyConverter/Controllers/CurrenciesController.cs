@@ -21,7 +21,7 @@ namespace CurrencyConverter.Controllers
         public IActionResult Get()
         {
             var currencies = _currencyLayerService.GetCurrencies();
-            return new ObjectResult(currencies);
+            return Ok(currencies);
         }
 
         // GET api/values/5

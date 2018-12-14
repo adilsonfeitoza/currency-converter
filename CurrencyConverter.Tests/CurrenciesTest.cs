@@ -3,35 +3,36 @@ using CurrencyConverter.Models;
 using CurrencyConverter.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Moq;
-using System;
+using NSubstitute;
 using Xunit;
+using System.Linq;
+using System.Collections;
 
 namespace CurrencyConverter.Tests
 {
     public class CurrenciesTest
     {
-        private Mock<IConfiguration> configuration;
+        private IConfiguration mockConfiguration;
         private CurrencyLayerService CurrencyLayerService;
 
         public CurrenciesTest()
         {
-            configuration = new Mock<IConfiguration>();
+            mockConfiguration = Substitute.For<IConfiguration>();
+            mockConfiguration.GetValue<string>("Settings:apilayer").Returns("http://apilayer.net/api");
+            mockConfiguration.GetValue<string>("Settings:access_key").Returns("e4e0deaf5a2fb6ef31b7ff2f608ef71f");
         }
 
         [Fact]
-        public void ConvertOneCurrency()
+        public void ObterListaDeMoedas()
         {
-            configuration.Setup(r => r.GetValue<string>("Settings:apilayer")).Returns("http://apilayer.net/api");
-            configuration.Setup(r => r.GetValue<string>("Settings:access_key")).Returns("e4e0deaf5a2fb6ef31b7ff2f608ef71f");
-            CurrencyLayerService = new CurrencyLayerService(configuration.Object);
+            CurrencyLayerService = new CurrencyLayerService(mockConfiguration);
             var controller = new CurrenciesController(CurrencyLayerService);
             var result = controller.Get();
 
-            var res = Assert.IsType<CreatedAtRouteResult>(result);
-            Assert.Equal(201, res.StatusCode.Value);
-            var currencies = Assert.IsType<CurrenciesResponse>(res.Value);
-            //Assert.Contains("New User", currencies.FirstName);
+            var res = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(200, res.StatusCode);
+            var currenciesResponse = Assert.IsType<CurrenciesResponse>(res.Value);
+            Assert.IsType<IDictionary>(currenciesResponse.currencies);
         }
     }
 }
