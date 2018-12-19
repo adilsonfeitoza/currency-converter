@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyConverter.Models
 {
-    public class CurrenciesResponse
+    public class ResulteResponse
     {
         public IDictionary<string, string> currencies { get; set; }
     }
@@ -14,5 +14,15 @@ namespace CurrencyConverter.Models
     {
         public string source { get; set; }
         public IDictionary<string, decimal> quotes { get; set; }
+    }
+
+    public class ConvertResponse
+    {
+        public ConvertResponse(decimal res)
+        {
+            this.result = res;
+        }
+
+        public decimal result { get; set; }
     }
 }

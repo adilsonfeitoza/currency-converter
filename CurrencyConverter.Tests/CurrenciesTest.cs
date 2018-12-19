@@ -7,6 +7,8 @@ using NSubstitute;
 using Xunit;
 using System.Linq;
 using System.Collections;
+using System.Collections.Generic;
+using System;
 
 namespace CurrencyConverter.Tests
 {
@@ -31,8 +33,37 @@ namespace CurrencyConverter.Tests
 
             var res = Assert.IsType<OkObjectResult>(result);
             Assert.Equal(200, res.StatusCode);
-            var currenciesResponse = Assert.IsType<CurrenciesResponse>(res.Value);
-            Assert.IsType<IDictionary>(currenciesResponse.currencies);
+            var currenciesResponse = Assert.IsType<ResulteResponse>(res.Value);
+            Assert.NotEmpty(currenciesResponse.currencies);
+        }
+
+        [Fact]
+        public void ConverterParaReal()
+        {
+            CurrencyLayerService = new CurrencyLayerService(mockConfiguration);
+            decimal quote = CurrencyLayerService.GetListQuotes().quotes.FirstOrDefault(x => x.Key == $"USDBRL").Value;
+            var controller = new CurrenciesController(CurrencyLayerService);
+            var result = controller.Get("USD", quote);
+
+            var res = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(200, res.StatusCode);
+            var currenciesResponse = Assert.IsType<ConvertResponse>(res.Value);
+            Assert.Equal(1, currenciesResponse.result);
+        }
+
+
+        [Fact]
+        public void ConverterRealParaDolar()
+        {
+            CurrencyLayerService = new CurrencyLayerService(mockConfiguration);
+            decimal quote = CurrencyLayerService.GetListQuotes().quotes.FirstOrDefault(x => x.Key == $"USDBRL").Value;
+            var controller = new CurrenciesController(CurrencyLayerService);
+            var result = controller.GetToBRL("USD", 1);
+
+            var res = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(200, res.StatusCode);
+            var currenciesResponse = Assert.IsType<ConvertResponse>(res.Value);
+            Assert.Equal(Math.Round(quote), Math.Round(currenciesResponse.result));
         }
     }
 }

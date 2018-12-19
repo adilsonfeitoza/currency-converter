@@ -16,37 +16,29 @@ namespace CurrencyConverter.Controllers
             _currencyLayerService = currencyLayerService;
         }
 
-        // GET api/values
+        // GET api/currencies
         [HttpGet]
         public IActionResult Get()
         {
-            var currencies = _currencyLayerService.GetCurrencies();
+            var currencies = _currencyLayerService.GetListCurrencies();
             return Ok(currencies);
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        // GET api/currencies/convert
+        [HttpGet("convert/from-brl/")]
+        public IActionResult Get([FromQuery(Name = "to")] string to, [FromQuery(Name = "amount")] decimal amount)
         {
-            return "value";
+            var result = _currencyLayerService.Convert("BRL", to, amount);
+            return Ok(result);
         }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        // GET api/currencies/convert/tobrl
+        [HttpGet("convert/to-brl/")]
+        public IActionResult GetToBRL([FromQuery(Name = "from")] string from, [FromQuery(Name = "amount")] decimal amount)
         {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            var result = _currencyLayerService.Convert(from, "BRL", amount);
+            return Ok(result);
         }
     }
 }

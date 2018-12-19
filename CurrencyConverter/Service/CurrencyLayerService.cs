@@ -24,9 +24,29 @@ namespace CurrencyConverter.Service
             API_ACCESS_KEY = configuration.GetValue<string>("Settings:access_key");
         }
 
-        public CurrenciesResponse GetCurrencies()
+        public ResulteResponse GetListCurrencies()
         {
-           return this.Get<CurrenciesResponse>($"{ URL_API_CURRENCY_LAYER }/list?access_key={ API_ACCESS_KEY }");
+           return this.Get<ResulteResponse>($"{ URL_API_CURRENCY_LAYER }/list?access_key={ API_ACCESS_KEY }");
+        }
+
+        public QuotesResponse GetListQuotes()
+        {
+            return this.Get<QuotesResponse>($"{ URL_API_CURRENCY_LAYER }/live?access_key={ API_ACCESS_KEY }");
+        }
+        
+
+        public ConvertResponse Convert(string to, string from, decimal amount)
+        {
+            decimal result = 0;
+            var listQuotes = this.GetListQuotes();
+            decimal quoteTo = listQuotes.quotes.FirstOrDefault(x => x.Key == $"USD{to.ToUpper()}").Value;
+            decimal quoteFrom = listQuotes.quotes.FirstOrDefault(x => x.Key == $"USD{from.ToUpper()}").Value;
+
+            if (quoteTo == 0 || quoteFrom == 0)            
+                return new ConvertResponse(result);
+            
+            result = amount / (quoteTo / quoteFrom);
+            return new ConvertResponse(result);
         }
 
         private T Get<T>(string url)

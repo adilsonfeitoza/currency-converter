@@ -8,6 +8,7 @@ namespace CurrencyConverter.Service
 {
     public interface ICurrencyLayerService
     {
-        CurrenciesResponse GetCurrencies();
+        ResulteResponse GetListCurrencies();
+        ConvertResponse Convert(string to, string from, decimal amount);
     }
 }

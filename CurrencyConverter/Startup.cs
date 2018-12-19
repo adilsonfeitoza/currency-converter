@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using CurrencyConverter.Service;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace CurrencyConverter
 {
@@ -26,6 +27,12 @@ namespace CurrencyConverter
         {
             services.AddScoped<ICurrencyLayerService, CurrencyLayerService>();
             services.AddMvc();
+
+            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Currency Converter", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,6 +42,13 @@ namespace CurrencyConverter
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Currency Converter");
+                c.RoutePrefix = string.Empty;
+            });
 
             app.UseMvc();
         }
