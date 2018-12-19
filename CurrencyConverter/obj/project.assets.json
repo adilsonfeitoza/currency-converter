@@ -12643,9 +12643,6 @@
   },
   "project": {
     "version": "1.0.0",
-    "restoreSettings": {
-      "hideWarningsAndErrors": true
-    },
     "restore": {
       "projectUniqueName": "C:\\node\\currency-converter\\CurrencyConverter\\CurrencyConverter.csproj",
       "projectName": "CurrencyConverter",
@@ -12686,13 +12683,13 @@
             "version": "2.0.0",
             "autoReferenced": true
           },
-          "Swashbuckle.AspNetCore": {
-            "target": "Package",
-            "version": "4.0.1"
-          },
           "Microsoft.AspNetCore.All": {
             "target": "Package",
             "version": "2.0.0"
+          },
+          "Swashbuckle.AspNetCore": {
+            "target": "Package",
+            "version": "4.0.1"
           }
         },
         "imports": [
